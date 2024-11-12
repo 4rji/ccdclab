@@ -47,6 +47,44 @@ Here, after waiting a few minutes for the firewall to fully start up, we can now
 
 
 
+____________________________________________________________________________________________________________________________________________
+
+
+
+Configuring the ccdclabprogram File
+
+To allow access and control of the machines, you need to update the ccdclabprogram file with your server details and credentials. Follow the steps below to configure the necessary settings.
+Steps to Edit the ccdclabprogram File
+
+    Open the File:
+
+    Locate and open the ccdclabprogram file in your preferred text editor.
+
+    Locate the Configuration Section:
+
+    Find the section of the file that configures the environment variables for govc. It should look like this:
+
+# Configure environment variables for govc
+os.environ['GOVC_URL'] = 'https://192.168.140.20/sdk'
+os.environ['GOVC_USERNAME'] = r'\Usuario'
+os.environ['GOVC_PASSWORD'] = 'Password'
+
+Update the Configuration Details:
+
+Replace the placeholder values with your actual server information and credentials:
+
+    GOVC_URL: The URL of your govc server.
+    GOVC_USERNAME: Your username.
+    GOVC_PASSWORD: Your password.
+
+
+Important Security Notice
+
+    Protect Your Credentials: Ensure that your GOVC_PASSWORD and other sensitive information are not exposed in public repositories or shared publicly.
+
+    Use Environment Variables (Optional): For enhanced security, consider using environment variables or a separate configuration file to store sensitive information instead of hardcoding them into your scripts.
+
+
 
 
 ____________________________________________________________________________________________________________________________________________
