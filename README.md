@@ -1,4 +1,49 @@
 
+# Setup Instructions
+
+This script automates setup to help you get started quickly. 
+
+## Steps
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/4rji/ccdclab.git
+   ```
+
+2. **Run the Startup Script**
+
+   Start the setup by executing:
+
+   ```bash
+   bash start.sh
+   ```
+
+3. **Modify Configuration Variables**
+
+   Update the variables as needed in the configuration file:
+
+   ```bash
+   sudo nvim /opt/4rji/bin/ccdclabprogram
+   ```
+
+4. **Run the Program**
+
+   Once configured, launch the program with:
+
+   ```bash
+   /opt/4rji/bin/ccdclab
+   ```
+
+The script will install all necessary tools and start the web server with the required modules pre-installed.
+
+
+
+
+
+
+
+
 The objective is to recreate a corporate environment, simulating the one we faced in the CCDC competition. We need to ensure secure computer network operations in a simulated business environment.
 
 It consists of the following servers:
@@ -50,13 +95,6 @@ Here, after waiting a few minutes for the firewall to fully start up, we can now
 ____________________________________________________________________________________________________________________________________________
 
 
-## This script does everything for you in case you are as lazy as me. It is also necessary to download the govc tool and set the program's variables:
-
-
-
-https://raw.githubusercontent.com/4rji/bina/refs/heads/main/binarios/vcenterinst
-
-This script creates variables within the Kali zsh environment, but you still need to modify the file with your credentials for it to work correctly.
 
 
 # Configuring the ccdclabprogram File

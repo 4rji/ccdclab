@@ -50,8 +50,10 @@ download_ccdclabs() {
             echo -e "\033[32mccdclabs programs downloaded and installed successfully.\033[0m"
             echo ""
             echo -e "Execute \033[1m/opt/4rji/bin/ccdclab\033[0m to start."
-	    echo -e "The script will execute and install what is necessary for it to work. Don’t forget to modify the variables in ccdclabprogram first, so it works on the first attempt."
-            ;;
+	    echo -e "Don’t forget to modify the variables in ccdclabprogram first, so it works on the first attempt."
+	    echo -e "sudo nvim /opt/4rji/bin/ccdclabprogram"
+
+	    ;;
         *)
             echo -e "\033[33mSkipping ccdclabs download.\033[0m"
             ;;
