@@ -38,6 +38,8 @@ This script automates setup to help you get started quickly.
 The script will install all necessary tools and start the web server with the required modules pre-installed.
 
 
+____________________________________________________________________________________________________________________________________________
+
 
 
 
@@ -149,8 +151,9 @@ To add a new virtual machine, include a new dictionary within the machines list 
     display_name: The name you want to display in your application.
     vcenter_name: The exact name of the virtual machine as it appears in vCenter.
 ____________________________________________________________________________________________________________________________________________
+This is my current configuration for the ESXi server of the machines.
 
-
+![Screenshot from 2024-11-12 18-47-35](https://github.com/user-attachments/assets/f6f6def7-a5c0-4106-99eb-2e08c1c464cd)
 
 
 ____________________________________________________________________________________________________________________________________________
