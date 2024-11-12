@@ -6,7 +6,7 @@ It consists of the following servers:
 
 10 VMs – 7 servers, 2 workstations, and the Palo Alto firewall.
 
-![Screenshot from 2024-11-12 17-10-04](https://github.com/user-attachments/assets/151c471c-a514-4c61-ae7f-85fb929f10d5)
+![Screenshot from 2024-11-12 17-20-38](https://github.com/user-attachments/assets/aba7f9ac-4a77-48e1-98a9-8e65fa965086)
 
 
 
