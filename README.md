@@ -151,7 +151,7 @@ To add a new virtual machine, include a new dictionary within the machines list 
     display_name: The name you want to display in your application.
     vcenter_name: The exact name of the virtual machine as it appears in vCenter.
 ____________________________________________________________________________________________________________________________________________
-This is my current configuration for the ESXi server of the machines.
+This is my current VMs configuration for the ESXi server.
 
 ![Screenshot from 2024-11-12 18-47-35](https://github.com/user-attachments/assets/f6f6def7-a5c0-4106-99eb-2e08c1c464cd)
 
