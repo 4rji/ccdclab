@@ -65,9 +65,6 @@ Steps to Edit the ccdclabprogram File
     Find the section of the file that configures the environment variables for govc. It should look like this:
 
 # Configure environment variables for govc
-os.environ['GOVC_URL'] = 'https://192.168.140.20/sdk'
-os.environ['GOVC_USERNAME'] = r'\Usuario'
-os.environ['GOVC_PASSWORD'] = 'Password'
 
 Update the Configuration Details:
 
@@ -78,11 +75,49 @@ Replace the placeholder values with your actual server information and credentia
     GOVC_PASSWORD: Your password.
 
 
-Important Security Notice
-
-    Protect Your Credentials: Ensure that your GOVC_PASSWORD and other sensitive information are not exposed in public repositories or shared publicly.
-
+Important Security Notice:     Protect Your Credentials: Ensure that your GOVC_PASSWORD and other sensitive information are not exposed in public repositories or shared publicly.
     Use Environment Variables (Optional): For enhanced security, consider using environment variables or a separate configuration file to store sensitive information instead of hardcoding them into your scripts.
+
+
+
+Example Configuration
+
+Here's how your configuration section might look after updating with your details:
+
+# Configure environment variables for govc
+os.environ['GOVC_URL'] = 'https://192.168.1.100/sdk'
+os.environ['GOVC_USERNAME'] = r'\adminUser'
+os.environ['GOVC_PASSWORD'] = 'SecureP@ssw0rd!'
+
+____________________________________________________________________________________________________________________________________________
+
+
+Defining Virtual Machines in the Program
+
+To define the servers in the program and have them recognized within your server, simply add their names within single quotes as shown in the example below. This should be done within the same ccdclabprogram file.
+Steps to Define Virtual Machines
+
+    Open the ccdclabprogram File:
+
+    Use your preferred text editor to open the ccdclabprogram file.
+
+    Locate the Machines Configuration Section:
+
+    Find the section where the list of virtual machines is defined. It should look like this:
+
+# Define the list of virtual machines with their display names and vCenter names
+machines = [
+    {'display_name': 'Windows 10', 'vcenter_name': 'windows10'},
+    {'display_name': '2016 Docker/Remote', 'vcenter_name': 'CCDC-2016-Docker-Remote'},
+    {'display_name': 'Debian 10 DNS/NTP', 'vcenter_name': 'CCDC-Debian10-DNS-NTP'},
+]
+
+Add Your Virtual Machines:
+To add a new virtual machine, include a new dictionary within the machines list with the following keys:
+
+    display_name: The name you want to display in your application.
+    vcenter_name: The exact name of the virtual machine as it appears in vCenter.
+____________________________________________________________________________________________________________________________________________
 
 
 
