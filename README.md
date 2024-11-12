@@ -4,7 +4,7 @@ The objective is to recreate a corporate environment, simulating the one we face
 It consists of the following servers:
  
 
-10 VMs – 7 servers, 2 workstations, and the Palo Alto firewall.
+# 10 VMs – 7 servers, 2 workstations, and the Palo Alto firewall.
 
 ![Screenshot from 2024-11-12 17-20-38](https://github.com/user-attachments/assets/aba7f9ac-4a77-48e1-98a9-8e65fa965086)
 
@@ -51,7 +51,7 @@ ________________________________________________________________________________
 
 
 
-Configuring the ccdclabprogram File
+## Configuring the ccdclabprogram File
 
 To allow access and control of the machines, you need to update the ccdclabprogram file with your server details and credentials. Follow the steps below to configure the necessary settings.
 Steps to Edit the ccdclabprogram File
