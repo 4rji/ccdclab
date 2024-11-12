@@ -6,7 +6,7 @@ It consists of the following servers:
 
 10 VMs – 7 servers, 2 workstations, and the Palo Alto firewall.
 
-
+https://github.com/4rji/ccdclab/issues/1#issue-2653452652
 
 
 
