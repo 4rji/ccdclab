@@ -10,9 +10,8 @@ It consists of the following servers:
 
 In the example above, you will see the machines on the server at localhost:600. By using the govc tool, we can retrieve information about each machine.
 
-TInstructions for Managing Machines on localhost:600
 
-This guide will help you understand how to manage virtual machines on the server at localhost:600 using the govc tool.
+This guide will help you understand how to manage virtual machines on the server at localhost:600
 Machine Status Indicators
 
     White Background: The machine is OFF.
@@ -40,7 +39,6 @@ After powering on the firewall:
     Wait a few minutes for the firewall to fully start up.
     Once the firewall's IP address is displayed, you can access it from the assigned network.
 
-By following these instructions, you can effectively manage and monitor the status of your virtual machines on localhost:600.
 ____________________________________________________________________________________________________________________________________________
 
 
