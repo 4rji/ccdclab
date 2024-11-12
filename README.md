@@ -62,16 +62,6 @@ This script creates variables within the Kali zsh environment, but you still nee
 # Configuring the ccdclabprogram File
 
 To allow access and control of the machines, you need to update the ccdclabprogram file with your server details and credentials. Follow the steps below to configure the necessary settings.
-Steps to Edit the ccdclabprogram File
-
-    Open the File:
-
-    Locate and open the ccdclabprogram file in your preferred text editor.
-
-    Locate the Configuration Section:
-
-    Find the section of the file that configures the environment variables for govc. It should look like this:
-
 
 
 ## Configure environment variables for govc
