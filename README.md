@@ -50,8 +50,16 @@ Here, after waiting a few minutes for the firewall to fully start up, we can now
 ____________________________________________________________________________________________________________________________________________
 
 
+## This script does everything for you in case you are as lazy as me. It is also necessary to download the govc tool and set the program's variables:
 
-## Configuring the ccdclabprogram File
+
+
+https://raw.githubusercontent.com/4rji/bina/refs/heads/main/binarios/vcenterinst
+
+This script creates variables within the Kali zsh environment, but you still need to modify the file with your credentials for it to work correctly.
+
+
+# Configuring the ccdclabprogram File
 
 To allow access and control of the machines, you need to update the ccdclabprogram file with your server details and credentials. Follow the steps below to configure the necessary settings.
 Steps to Edit the ccdclabprogram File
@@ -64,7 +72,9 @@ Steps to Edit the ccdclabprogram File
 
     Find the section of the file that configures the environment variables for govc. It should look like this:
 
-# Configure environment variables for govc
+
+
+## Configure environment variables for govc
 
 Update the Configuration Details:
 
@@ -84,10 +94,10 @@ Example Configuration
 
 Here's how your configuration section might look after updating with your details:
 
-# Configure environment variables for govc
-os.environ['GOVC_URL'] = 'https://192.168.1.100/sdk'
-os.environ['GOVC_USERNAME'] = r'\adminUser'
-os.environ['GOVC_PASSWORD'] = 'SecureP@ssw0rd!'
+    os.environ['GOVC_URL'] = 'https://192.168.1.100/sdk'
+    os.environ['GOVC_USERNAME'] = r'\adminUser'
+    os.environ['GOVC_PASSWORD'] = 'SecureP@ssw0rd!'
+
 
 ____________________________________________________________________________________________________________________________________________
 
@@ -97,13 +107,6 @@ Defining Virtual Machines in the Program
 To define the servers in the program and have them recognized within your server, simply add their names within single quotes as shown in the example below. This should be done within the same ccdclabprogram file.
 Steps to Define Virtual Machines
 
-    Open the ccdclabprogram File:
-
-    Use your preferred text editor to open the ccdclabprogram file.
-
-    Locate the Machines Configuration Section:
-
-    Find the section where the list of virtual machines is defined. It should look like this:
 
 # Define the list of virtual machines with their display names and vCenter names
 machines = [
