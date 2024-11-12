@@ -10,13 +10,37 @@ It consists of the following servers:
 
 In the example above, you will see the machines on the server at localhost:600. By using the govc tool, we can retrieve information about each machine.
 
-The white background color of each machine indicates that it is OFF.
-The green background color means the machine is POWERED ON.
-If a machine shows as "No-active," it means it has no assigned IP.
-If a machine has an IP and a green background, then it is ready for use.
+TInstructions for Managing Machines on localhost:600
 
-The "Turn on" button powers on the machine (wait a few seconds to see its status change to green as it powers on).
-The "Turn off" button powers off the machine (and again, wait a few seconds to see the status update on the machine).
+This guide will help you understand how to manage virtual machines on the server at localhost:600 using the govc tool.
+Machine Status Indicators
+
+    White Background: The machine is OFF.
+    Green Background: The machine is POWERED ON.
+    "No-active" Status: The machine has no assigned IP address.
+    IP Address Displayed & Green Background: The machine is powered on and ready for use.
+
+How to Control Machines
+Turning On a Machine
+
+    Click the "Turn on" button to power on the machine.
+    Wait a few seconds for the machine to boot up.
+    The machine's background will change to green once it's powered on.
+
+Turning Off a Machine
+
+    Click the "Turn off" button to shut down the machine.
+    Wait a few seconds for the machine to completely power off.
+    The machine's background will change to white once it's turned off.
+
+Accessing the Firewall
+
+After powering on the firewall:
+
+    Wait a few minutes for the firewall to fully start up.
+    Once the firewall's IP address is displayed, you can access it from the assigned network.
+
+By following these instructions, you can effectively manage and monitor the status of your virtual machines on localhost:600.
 ____________________________________________________________________________________________________________________________________________
 
 
