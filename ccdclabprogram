@@ -1,0 +1,277 @@
+#!/usr/bin/env python3
+import os
+
+from flask import Flask, render_template_string, url_for, redirect
+
+import subprocess
+import logging
+import re
+
+# Configurar variables de entorno para govc
+os.environ['GOVC_URL'] = 'https://10.100.1.6/sdk'
+os.environ['GOVC_USERNAME'] = r'ID'
+os.environ['GOVC_PASSWORD'] = 'Password'    
+os.environ['GOVC_INSECURE'] = '1'
+
+app = Flask(__name__)
+
+# Configurar el logging para capturar errores sin interferir con Flask
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
+handler = logging.FileHandler('app.log')
+formatter = logging.Formatter('%(asctime)s %(levelname)s:%(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# Definir la lista de máquinas virtuales con su nombre para mostrar y su nombre en vcenter
+machines = [
+    {'display_name': 'VyOS Router', 'vcenter_name': '25-26-A-VyOS'},
+    {'display_name': 'Palo Alto', 'vcenter_name': '25-26-A-PA-VM-ESX-11.1.4'},
+    {'display_name': 'Cisco FTD', 'vcenter_name': '25-26-Cisco-FTD'},
+    {'display_name': 'Windows 10 External', 'vcenter_name': '25-26-win11-external'},
+    {'display_name': 'Ecom Ubuntu 24', 'vcenter_name': '25-26-1-Ecom-Nabilah'},
+    {'display_name': 'Webmail Fedora 42', 'vcenter_name': '25-26-2-Webmail'},
+    {'display_name': 'Splunk', 'vcenter_name': '25-26-Splunk-Minh'},
+    {'display_name': 'Wkst Windows 11', 'vcenter_name': '25-26-win11-Alex'},
+    {'display_name': 'AD / DNS Server 2019', 'vcenter_name': '25-26-5-AD-DNS-ALEX'},
+    {'display_name': 'Web Server 2019', 'vcenter_name': '25-26-WebServer2019-Ty'},
+    {'display_name': 'Nextcloud', 'vcenter_name': '25-26-NextCloud-Ubuntu'},
+    {'display_name': 'Linux WorkStation', 'vcenter_name': '25-26-4-Wks-Phi'},
+    {'display_name': 'Kali Workstation', 'vcenter_name': '25-26-Havi-kali'},
+    {'display_name': 'Kali on Palo Network', 'vcenter_name': '25-26-Kali-Paloalto-network'},
+    {'display_name': 'Kali on Cisco Network 240', 'vcenter_name': '25-26-kali-FTD-network'},
+]
+
+
+
+# Lista de nombres de máquinas válidas
+valid_machines = [machine['vcenter_name'] for machine in machines]
+
+def get_vm_status_and_ip(vm_name):
+    try:
+        command = ['govc', 'vm.info', vm_name]
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+        if result.returncode != 0:
+            logger.error(f"Error obteniendo información para {vm_name} con govc: {result.stderr.strip()}")
+            return "No-Active"
+
+        output = result.stdout.strip()
+        ip_matches = re.findall(r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b', output)
+        for ip in ip_matches:
+            if ip != "127.0.0.1":
+                return ip
+#to delete No-active message add it between "" or not
+        return ""
+
+    except Exception as e:
+        logger.error(f"Excepción al obtener IP para {vm_name}: {e}")
+        return "Error"
+
+# Función adicional para obtener el estado de potencia de la máquina
+def get_vm_power_state(vm_name):
+    try:
+        command = ['govc', 'vm.info', vm_name]
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+        if result.returncode != 0:
+            logger.error(f"Error obteniendo información para {vm_name} con govc: {result.stderr.strip()}")
+            return "unknown"
+
+        output = result.stdout.strip()
+        match = re.search(r'Power state:\s+(\w+)', output)
+        if match:
+            return match.group(1)
+        else:
+            return "unknown"
+
+    except Exception as e:
+        logger.error(f"Excepción al obtener estado de potencia para {vm_name}: {e}")
+        return "error"
+
+@app.route('/')
+def index():
+    machine_info = []
+    for machine in machines:
+        display_name = machine['display_name']
+        vcenter_name = machine['vcenter_name']
+        ip = get_vm_status_and_ip(vcenter_name)
+        power_state = get_vm_power_state(vcenter_name)  # Obtener el estado de potencia
+        machine_info.append({
+            'display_name': display_name,
+            'vcenter_name': vcenter_name,
+            'ip': ip,
+            'power_state': power_state  # Agregar el estado de potencia al diccionario
+        })
+
+    # HTML template con botones de encendido, apagado y reset para cada máquina
+    html_template = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <!-- (El resto del head permanece igual) -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Network Dashboard</title>
+        <style>
+            body {
+                background-color: #007BFF;
+                font-family: Arial, sans-serif;
+            }
+            .navbar {
+                background-color: #333;
+                color: white;
+                padding: 1rem;
+                text-align: center;
+            }
+            .content {
+                text-align: center;
+                margin-top: 50px;
+            }
+            .machine {
+                display: inline-block;
+                margin: 20px;
+                padding: 20px;
+                background-color: #FFF;
+                border-radius: 10px;
+                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+                width: 200px;
+                vertical-align: top;
+            }
+            /* Clase para el fondo verde cuando la máquina está encendida */
+            .machine-on {
+                background-color: #005f00; /* Verde claro */
+            }
+            .machine-name {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .ip-address {
+                font-size: 0.9em;
+            }
+            .ip-active {
+                color: white;
+            }
+            .ip-inactive {
+                color: red;
+            }
+            .image-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+            .image-container img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            .instruction {
+                color: #90EE90;
+                font-size: 2.2em;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            button {
+                padding: 10px 20px;
+                margin: 5px;
+                font-size: 0.9em;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                color: white;
+            }
+            .start-button {
+                background-color: #28a745; /* verde */
+            }
+            .shutdown-button {
+                background-color: #dc3545; /* rojo */
+            }
+            .reset-button {
+                background-color: #ffc107; /* amarillo */
+            }
+            button:hover {
+                opacity: 0.8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navbar">
+            <h1>2026 CCDC - Virtual Machines</h1>
+        </div>
+
+        <div class="content">
+            {% for machine in machine_info %}
+            <!-- Agregar clase 'machine-on' si la máquina está encendida -->
+            <div class="machine {% if machine.power_state == 'poweredOn' %}machine-on{% endif %}">
+                <div class="machine-name">{{ machine.display_name }}</div>
+                {% if machine.ip == "No-Active" %}
+                    <div class="ip-address ip-inactive">{{ machine.ip }}</div>
+                {% elif machine.ip == "Error" %}
+                    <div class="ip-address ip-inactive">Error</div>
+                {% else %}
+                    <div class="ip-address ip-active">{{ machine.ip }}</div>
+                {% endif %}
+                <button class="start-button" onclick="location.href='{{ url_for('start_machine', machine=machine.vcenter_name) }}'">Turn on</button>
+                <button class="shutdown-button" onclick="location.href='{{ url_for('shutdown_machine', machine=machine.vcenter_name) }}'">Turn off</button>
+                <button class="reset-button" onclick="location.href='{{ url_for('reset_machine', machine=machine.vcenter_name) }}'">Reset</button>
+            </div>
+            {% endfor %}
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='ccdc.png') }}" alt="CCDC Logo">
+            </div>
+        </div>
+        <p class="instruction">"Use the buttons to Turn On, Turn Off or Reset the devices."</p>
+    </body>
+    </html>
+    """
+    return render_template_string(html_template, machine_info=machine_info)
+
+@app.route('/start/<machine>')
+def start_machine(machine):
+    if machine in valid_machines:
+        command = ['govc', 'vm.power', '-on', machine]
+        try:
+            subprocess.Popen(command)
+        except Exception as e:
+            logger.error(f"Error iniciando {machine}: {e}")
+    else:
+        logger.error(f"Nombre de máquina inválido para iniciar: {machine}")
+    return redirect('/')
+
+@app.route('/shutdown/<machine>')
+def shutdown_machine(machine):
+    if machine in valid_machines:
+        command = ['govc', 'vm.power', '-off', machine]
+        try:
+            subprocess.Popen(command)
+        except Exception as e:
+            logger.error(f"Error apagando {machine}: {e}")
+    else:
+        logger.error(f"Nombre de máquina inválido para apagar: {machine}")
+    return redirect('/')
+
+@app.route('/reset/<machine>')
+def reset_machine(machine):
+    if machine in valid_machines:
+        command = ['govc', 'snapshot.revert', '-vm', machine, 'last']
+        try:
+            subprocess.Popen(command)
+        except Exception as e:
+            logger.error(f"Error restaurando {machine}: {e}")
+    else:
+        logger.error(f"Nombre de máquina inválido para restaurar: {machine}")
+    return redirect('/')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=600, debug=True)
+
