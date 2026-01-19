@@ -25,21 +25,81 @@ logger.addHandler(handler)
 
 # Definir la lista de máquinas virtuales con su nombre para mostrar y su nombre en vcenter
 machines = [
-    {'display_name': 'VyOS Router', 'vcenter_name': '25-26-A-VyOS'},
-    {'display_name': 'Palo Alto', 'vcenter_name': '25-26-A-PA-VM-ESX-11.1.4'},
-    {'display_name': 'Cisco FTD', 'vcenter_name': '25-26-Cisco-FTD'},
-    {'display_name': 'Windows 10 External', 'vcenter_name': '25-26-win11-external'},
-    {'display_name': 'Ecom Ubuntu 24', 'vcenter_name': '25-26-1-Ecom-Nabilah'},
-    {'display_name': 'Webmail Fedora 42', 'vcenter_name': '25-26-2-Webmail'},
-    {'display_name': 'Splunk', 'vcenter_name': '25-26-Splunk-Minh'},
-    {'display_name': 'Wkst Windows 11', 'vcenter_name': '25-26-win11-Alex'},
-    {'display_name': 'AD / DNS Server 2019', 'vcenter_name': '25-26-5-AD-DNS-ALEX'},
-    {'display_name': 'Web Server 2019', 'vcenter_name': '25-26-WebServer2019-Ty'},
-    {'display_name': 'Nextcloud', 'vcenter_name': '25-26-NextCloud-Ubuntu'},
-    {'display_name': 'Linux WorkStation', 'vcenter_name': '25-26-4-Wks-Phi'},
-    {'display_name': 'Kali Workstation', 'vcenter_name': '25-26-Havi-kali'},
-    {'display_name': 'Kali on Palo Network', 'vcenter_name': '25-26-Kali-Paloalto-network'},
-    {'display_name': 'Kali on Cisco Network 240', 'vcenter_name': '25-26-kali-FTD-network'},
+    {
+        'display_name': 'VyOS Router',
+        'vcenter_name': '25-26-A-VyOS',
+        'console_url': 'https://10.100.1.6/ui/#/console/208',
+    },
+    {
+        'display_name': 'Palo Alto',
+        'vcenter_name': '25-26-A-PA-VM-ESX-11.1.4',
+        'console_url': 'https://10.100.1.6/ui/#/console/229',
+    },
+    {
+        'display_name': 'Cisco FTD',
+        'vcenter_name': '25-26-Cisco-FTD',
+        'console_url': 'https://10.100.1.6/ui/#/console/228',
+    },
+    {
+        'display_name': 'Windows 10 External',
+        'vcenter_name': '25-26-win11-external',
+        'console_url': 'https://10.100.1.6/ui/#/console/251',
+    },
+    {
+        'display_name': 'Ecom Ubuntu 24',
+        'vcenter_name': '25-26-1-Ecom-Nabilah',
+        'console_url': 'https://10.100.1.6/ui/#/console/219',
+    },
+    {
+        'display_name': 'Webmail Fedora 42',
+        'vcenter_name': '25-26-2-Webmail',
+        'console_url': 'https://10.100.1.6/ui/#/console/190',
+    },
+    {
+        'display_name': 'Splunk',
+        'vcenter_name': '25-26-Splunk-Minh',
+        'console_url': 'https://10.100.1.6/ui/#/console/255',
+    },
+    {
+        'display_name': 'Wkst Windows 11',
+        'vcenter_name': '25-26-win11-Alex',
+        'console_url': 'https://10.100.1.6/ui/#/console/244',
+    },
+    {
+        'display_name': 'AD / DNS Server 2019',
+        'vcenter_name': '25-26-5-AD-DNS-ALEX',
+        'console_url': 'https://10.100.1.6/ui/#/console/186',
+    },
+    {
+        'display_name': 'Web Server 2019',
+        'vcenter_name': '25-26-WebServer2019-Ty',
+        'console_url': 'https://10.100.1.6/ui/#/console/188',
+    },
+    {
+        'display_name': 'Nextcloud',
+        'vcenter_name': '25-26-NextCloud-Ubuntu',
+        'console_url': '',
+    },
+    {
+        'display_name': 'Linux WorkStation',
+        'vcenter_name': '25-26-4-Wks-Phi',
+        'console_url': '',
+    },
+    {
+        'display_name': 'Kali Workstation',
+        'vcenter_name': '25-26-Havi-kali',
+        'console_url': 'https://10.100.1.6/ui/#/console/221',
+    },
+    {
+        'display_name': 'Kali on Palo Network',
+        'vcenter_name': '25-26-Kali-Paloalto-network',
+        'console_url': 'https://10.100.1.6/ui/#/console/249',
+    },
+    {
+        'display_name': 'Kali on Cisco Network 240',
+        'vcenter_name': '25-26-kali-FTD-network',
+        'console_url': 'https://10.100.1.6/ui/#/console/250',
+    },
 ]
 
 
@@ -111,7 +171,8 @@ def index():
             'display_name': display_name,
             'vcenter_name': vcenter_name,
             'ip': ip,
-            'power_state': power_state  # Agregar el estado de potencia al diccionario
+            'power_state': power_state,  # Agregar el estado de potencia al diccionario
+            'console_url': machine.get('console_url', '')
         })
 
     # HTML template con botones de encendido, apagado y reset para cada máquina
@@ -125,7 +186,7 @@ def index():
         <title>Network Dashboard</title>
         <style>
             body {
-                background-color: #007BFF;
+                background-color: #0b1f3a;
                 font-family: Arial, sans-serif;
             }
             .navbar {
@@ -142,7 +203,8 @@ def index():
                 display: inline-block;
                 margin: 20px;
                 padding: 20px;
-                background-color: #FFF;
+                background-color: #000;
+                color: #f5f5f5;
                 border-radius: 10px;
                 box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
                 width: 200px;
@@ -150,7 +212,7 @@ def index():
             }
             /* Clase para el fondo verde cuando la máquina está encendida */
             .machine-on {
-                background-color: #005f00; /* Verde claro */
+                background-color: #0b5d1e; /* Verde oscuro */
             }
             .machine-name {
                 font-weight: bold;
@@ -199,6 +261,9 @@ def index():
             .reset-button {
                 background-color: #ffc107; /* amarillo */
             }
+            .console-button {
+                background-color: #17a2b8; /* azul verdoso */
+            }
             button:hover {
                 opacity: 0.8;
             }
@@ -224,6 +289,9 @@ def index():
                 <button class="start-button" onclick="location.href='{{ url_for('start_machine', machine=machine.vcenter_name) }}'">Turn on</button>
                 <button class="shutdown-button" onclick="location.href='{{ url_for('shutdown_machine', machine=machine.vcenter_name) }}'">Turn off</button>
                 <button class="reset-button" onclick="location.href='{{ url_for('reset_machine', machine=machine.vcenter_name) }}'">Reset</button>
+                {% if machine.console_url %}
+                    <button class="console-button" onclick="window.open('{{ machine.console_url }}', '_blank')">Console</button>
+                {% endif %}
             </div>
             {% endfor %}
             <div class="image-container">
@@ -274,4 +342,3 @@ def reset_machine(machine):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=600, debug=True)
-
